@@ -1,0 +1,16 @@
+Description = "Trunk is a basic logging package for Golang."
+License = "Apache-2.0"
+Name = "Trunk"
+Version = 0.1
+
+[Projects]
+	[Projects.trunk]
+		Destination = ""
+		Plugin = "go"
+		SimpleName = "trunk"
+		Source = "../*.go"
+	[Projects.trunktest]
+		Binary = true
+		Destination = "build/trunktest"
+		Plugin = "go"
+		Source = "src/trunktest/*.go"
