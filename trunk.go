@@ -5,24 +5,37 @@ import (
 	"os"
 )
 
-var logFatal *log.Logger
+var logDebug *log.Logger
 var logErr *log.Logger
+var logFatal *log.Logger
 var logInfo *log.Logger
 var logSuccess *log.Logger
 var logWarn *log.Logger
 
 func init() {
 	ansiGreen := "\u001b[32m"
-	ansiBlue := "\u001b[36m"
+	ansiBlue := "\u001b[34m"
 	ansiRed := "\u001b[31m"
 	ansiReset := "\u001b[0m"
+	ansiWhite := "\u001b[37;1m"
 	ansiYellow := "\u001b[33m"
 
-	logFatal = log.New(os.Stderr, ansiRed+"[fatal] "+ansiReset, 0)
+	logDebug = log.New(os.Stdout, ansiGreen+"[debug] "+ansiReset, 0)
 	logErr = log.New(os.Stderr, ansiRed+"[error] "+ansiReset, 0)
-	logInfo = log.New(os.Stdout, ansiBlue+"[info] "+ansiReset, 0)
-	logSuccess = log.New(os.Stdout, ansiGreen+"[success] "+ansiReset, 0)
+	logFatal = log.New(os.Stderr, ansiRed+"[fatal] "+ansiReset, 0)
+	logInfo = log.New(os.Stdout, ansiWhite+"[info] "+ansiReset, 0)
+	logSuccess = log.New(os.Stdout, ansiBlue+"[success] "+ansiReset, 0)
 	logWarn = log.New(os.Stdout, ansiYellow+"[warn] "+ansiReset, 0)
+}
+
+// LogDebug will log a message as debug
+func LogDebug(message string) {
+	logDebug.Println(message)
+}
+
+// LogDebugRaw will log an error's message as debug
+func LogDebugRaw(message error) {
+	LogDebug(message.Error())
 }
 
 // LogErr will log a message at an "error" level
