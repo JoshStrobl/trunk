@@ -6,11 +6,8 @@ Version = 0.1
 [Projects]
 	[Projects.trunk]
 		Destination = ""
+		DisableNestedEnvironment = true
 		Plugin = "go"
 		SimpleName = "trunk"
-		Source = "../*.go"
-	[Projects.trunktest]
-		Binary = true
-		Destination = "build/trunktest"
-		Plugin = "go"
-		Source = "src/trunktest/*.go"
+		Source = "*.go"
+		Type = "package"
