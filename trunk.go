@@ -3,14 +3,13 @@ package trunk
 import (
 	"log"
 	"os"
+	"strings"
 )
 
-var logDebug *log.Logger
-var logErr *log.Logger
-var logFatal *log.Logger
-var logInfo *log.Logger
-var logSuccess *log.Logger
-var logWarn *log.Logger
+var (
+	LoggerDebug, LoggerErr, LoggerFatal, LoggerInfo, LoggerSuccess, LoggerWarn *log.Logger
+	LevelSuccess, LevelInfo, LevelDebug, LevelWarn, LevelErr, LevelFatal       = 0, 1, 2, 3, 4, 5
+)
 
 func init() {
 	ansiGreen := "\u001b[32m"
@@ -20,60 +19,61 @@ func init() {
 	ansiWhite := "\u001b[37;1m"
 	ansiYellow := "\u001b[33m"
 
-	logDebug = log.New(os.Stdout, ansiGreen+"[debug] "+ansiReset, 0)
-	logErr = log.New(os.Stderr, ansiRed+"[error] "+ansiReset, 0)
-	logFatal = log.New(os.Stderr, ansiRed+"[fatal] "+ansiReset, 0)
-	logInfo = log.New(os.Stdout, ansiWhite+"[info] "+ansiReset, 0)
-	logSuccess = log.New(os.Stdout, ansiBlue+"[success] "+ansiReset, 0)
-	logWarn = log.New(os.Stdout, ansiYellow+"[warn] "+ansiReset, 0)
+	LoggerDebug = log.New(os.Stdout, ansiGreen+"[debug] "+ansiReset, 0)
+	LoggerErr = log.New(os.Stderr, ansiRed+"[error] "+ansiReset, 0)
+	LoggerFatal = log.New(os.Stderr, ansiRed+"[fatal] "+ansiReset, 0)
+	LoggerInfo = log.New(os.Stdout, ansiWhite+"[info] "+ansiReset, 0)
+	LoggerSuccess = log.New(os.Stdout, ansiBlue+"[success] "+ansiReset, 0)
+	LoggerWarn = log.New(os.Stdout, ansiYellow+"[warn] "+ansiReset, 0)
+}
+
+func LogLevel(level int, message string, vals ...interface{}) {
+	if !strings.HasSuffix(message, "\n") { // Doesn't end with a newline
+		message += "\n" // Add one
+	}
+
+	switch level {
+	case LevelInfo:
+		LoggerInfo.Printf(message, vals)
+	case LevelDebug:
+		LoggerDebug.Printf(message, vals)
+	case LevelWarn:
+		LoggerWarn.Printf(message, vals)
+	case LevelErr:
+		LoggerErr.Printf(message, vals)
+	case LevelFatal:
+		LoggerFatal.Fatalf(message, vals)
+	default: // Success
+		LoggerSuccess.Printf(message, vals)
+	}
 }
 
 // LogDebug will log a message as debug
-func LogDebug(message string) {
-	logDebug.Println(message)
-}
-
-// LogDebugRaw will log an error's message as debug
-func LogDebugRaw(message error) {
-	LogDebug(message.Error())
+func LogDebug(message string, vals ...interface{}) {
+	LogLevel(LevelDebug, message, vals)
 }
 
 // LogErr will log a message at an "error" level
-func LogErr(message string) {
-	logErr.Println(message)
-}
-
-// LogErrRaw will log an error's message at an "error" level
-func LogErrRaw(message error) {
-	LogErr(message.Error())
+func LogErr(message string, vals ...interface{}) {
+	LogLevel(LevelErr, message, vals)
 }
 
 // LogFatal will log a message as fatal and exit
-func LogFatal(message string) {
-	logFatal.Fatalln(message)
-}
-
-// LogFatalErr will log an error's message as fatal and exit
-func LogFatalErr(message error) {
-	LogFatal(message.Error())
+func LogFatal(message string, vals ...interface{}) {
+	LogLevel(LevelFatal, message, vals)
 }
 
 // LogInfo will log a message at an "info" level
-func LogInfo(message string) {
-	logInfo.Println(message)
+func LogInfo(message string, vals ...interface{}) {
+	LogLevel(LevelInfo, message, vals)
 }
 
 // LogSuccess will log a successful action message at an "info" level
-func LogSuccess(message string) {
-	logSuccess.Println(message)
+func LogSuccess(message string, vals ...interface{}) {
+	LogLevel(LevelSuccess, message, vals)
 }
 
 // LogWarn will log a warning message at an "info" level
-func LogWarn(message string) {
-	logWarn.Println(message)
-}
-
-// LogWarnErr will log an error's message as a warning at an "info" level
-func LogWarnErr(message error) {
-	LogWarn(message.Error())
+func LogWarn(message string, vals ...interface{}) {
+	LogLevel(LevelWarn, message, vals)
 }
