@@ -27,6 +27,7 @@ func init() {
 	LoggerWarn = log.New(os.Stdout, ansiYellow+"[warn] "+ansiReset, 0)
 }
 
+// LogLevel will log using a specific level our message and provided values
 func LogLevel(level int, message string, vals ...interface{}) {
 	if !strings.HasSuffix(message, "\n") { // Doesn't end with a newline
 		message += "\n" // Add one
