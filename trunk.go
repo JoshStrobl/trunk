@@ -35,46 +35,46 @@ func LogLevel(level int, message string, vals ...interface{}) {
 
 	switch level {
 	case LevelInfo:
-		LoggerInfo.Printf(message, vals)
+		LoggerInfo.Printf(message, vals...)
 	case LevelDebug:
-		LoggerDebug.Printf(message, vals)
+		LoggerDebug.Printf(message, vals...)
 	case LevelWarn:
-		LoggerWarn.Printf(message, vals)
+		LoggerWarn.Printf(message, vals...)
 	case LevelErr:
-		LoggerErr.Printf(message, vals)
+		LoggerErr.Printf(message, vals...)
 	case LevelFatal:
-		LoggerFatal.Fatalf(message, vals)
+		LoggerFatal.Fatalf(message, vals...)
 	default: // Success
-		LoggerSuccess.Printf(message, vals)
+		LoggerSuccess.Printf(message, vals...)
 	}
 }
 
 // LogDebug will log a message as debug
 func LogDebug(message string, vals ...interface{}) {
-	LogLevel(LevelDebug, message, vals)
+	LogLevel(LevelDebug, message, vals...)
 }
 
 // LogErr will log a message at an "error" level
 func LogErr(message string, vals ...interface{}) {
-	LogLevel(LevelErr, message, vals)
+	LogLevel(LevelErr, message, vals...)
 }
 
 // LogFatal will log a message as fatal and exit
 func LogFatal(message string, vals ...interface{}) {
-	LogLevel(LevelFatal, message, vals)
+	LogLevel(LevelFatal, message, vals...)
 }
 
 // LogInfo will log a message at an "info" level
 func LogInfo(message string, vals ...interface{}) {
-	LogLevel(LevelInfo, message, vals)
+	LogLevel(LevelInfo, message, vals...)
 }
 
 // LogSuccess will log a successful action message at an "info" level
 func LogSuccess(message string, vals ...interface{}) {
-	LogLevel(LevelSuccess, message, vals)
+	LogLevel(LevelSuccess, message, vals...)
 }
 
 // LogWarn will log a warning message at an "info" level
 func LogWarn(message string, vals ...interface{}) {
-	LogLevel(LevelWarn, message, vals)
+	LogLevel(LevelWarn, message, vals...)
 }
